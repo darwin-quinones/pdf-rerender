@@ -20,6 +20,7 @@ const PDFRender = () => {
       <Loader isLoading={isLoading} />
       <section id="pdf-section" className="d-flex flex-column align-items-center">
         <ControlPanel 
+        scale={scale}
         setScale={setScale}
         pageNumber={pageNumber} 
         numPages={numPages} 

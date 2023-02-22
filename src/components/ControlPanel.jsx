@@ -1,7 +1,7 @@
 import React from "react";
 
 const ControlPanel = (props) => {
-  const { pageNumber, numPages, setPageNumber, setScale } = props;
+  const { pageNumber, numPages, setPageNumber, setScale, scale } = props;
 
   // control panel logic
   const isFirstPage = pageNumber === 1;
@@ -31,9 +31,24 @@ const ControlPanel = (props) => {
     setPageNumber(Number(value));
   };
 
+
+  const isMinZoon = scale <= 0.6
+  const isMaxZoon = scale >= 2.0 
+
+  const zoomOutClass = isMinZoon ? 'disabled' : 'clickable'
+  const zoomInClass = isMaxZoon? 'disabled' : 'clickable'
+
+  
+  const zoomOut = () =>{
+    if(!isMinZoon) setScale(scale - 0.1)
+  }
+  const zoomIn = () =>{
+    if(!isMaxZoon) setScale(scale + 0.1)
+  }
+  
   return (
-    <div className="control-panel m-5 p-3 d-flex align-items-baseline justify-content-center">
-      <div>
+    <div className="control-panel m-5 p-3 d-flex align-items-baseline justify-content-between">
+      <div className="d-flex justify-content-between align-items-baseline">
         <i
           className={`fas fa-fast-backward mx-3 ${firstPageClass}`}
           onClick={goToFirstPage}
@@ -67,8 +82,11 @@ const ControlPanel = (props) => {
           onClick={goToLastPage}
         ></i>
       </div>
-      <div>
-        
+
+      <div className="d-flex justify-content-between align-items-baseline">
+        <i className={`fas fa-search-minus mx-3 ${zoomOutClass}`} onClick={zoomOut}></i>
+        <span>{(scale * 100).toFixed()}%</span>
+        <i className={`fas fa-search-plus mx-3 ${zoomInClass}`} onClick={zoomIn}></i>
       </div>
     </div>
   );
